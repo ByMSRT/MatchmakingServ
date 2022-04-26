@@ -6,7 +6,12 @@ def main():
     print("Change name of Game")
     getter.setName("New Tic Tac Toe")
     print(getter.name)
-    print(grid.display_grid())
+    grid.display_grid()
+    #print(grid.display_grid())
+    grid.print_one_element()
+    grid.display_grid()
+
+
 getter = Game('Tic Tac Toe')
 grid = Grid()
 
