@@ -16,6 +16,12 @@ class Game:
             else:
                 print("Votre pion est désormais 'O'")
 
+    def choose_player(self):
+        player_1 = input("Joueur 1 quel est votre nom ?")
+        player_2 = input("Joueur 2 quel est votre nom ?")
+        return player_1, player_2
+
+
     #TODO
     def choose_case(self, line_or_row):
         response = input(f"Dans quelle {line_or_row} voulez-vous placer votre pion ?")
