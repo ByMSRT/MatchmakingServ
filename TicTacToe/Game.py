@@ -1,4 +1,5 @@
 from TicTacToe.Grid import Grid
+from random import choice
 
 class Game:
 
@@ -16,11 +17,24 @@ class Game:
             else:
                 print("Votre pion est désormais 'O'")
 
-    def choose_player(self):
-        player_1 = input("Joueur 1 quel est votre nom ?")
-        player_2 = input("Joueur 2 quel est votre nom ?")
-        return player_1, player_2
-
+    def random_player():
+        player_1 = ""
+        player_2 = ""
+        while player_1 == "":
+                player_1 = input("Joueur 1 quel est votre nom ? ")
+                if player_1 == "":
+                    print("Veuillez rentrer un nom")
+                else:
+                        print("Vous avez choisi : " + player_1)
+        while player_2 == "":
+                player_2 = input("Joueur 2 quel est votre nom ? ")
+                if player_2 == "":
+                        print("Veuillez rentrer un nom")
+                else:
+                        print("Vous avez choisi : " + player_2)
+        players = [player_1, player_2]
+        random_player = choice(players)
+        print(f"C'est {random_player} qui commence la partie !")
 
     #TODO
     def choose_case(self, line_or_row):
