@@ -1,2 +1,3 @@
 .idea
-TicTacToe/__pycache__/Game.cpython-39.pyc
+.DS_Store
+TicTacToe/__pycache__/*
