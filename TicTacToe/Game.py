@@ -32,12 +32,14 @@ class Game:
         line = 0
 
         while not_finish:
-            self.horizontal_victory('X')
+
             if(index_of_player%2):
                 self.place_pawn('1', 'O', column, line)
+                self.horizontal_victory('O')
                 index_of_player += 1
             else:
                 self.place_pawn('2', 'X', column, line)
+                self.horizontal_victory('X')
                 index_of_player += 1
 
     def place_pawn(self, player_id, player_pawn, column, line):
@@ -47,7 +49,10 @@ class Game:
         grid.display_grid()
         column += self.choose_case('colonne')
         line += self.choose_case('ligne')
-        grid.insert_pawn_in_grid(line, column, player_pawn)
+        if (grid.grid[line, column] == '-'):
+            grid.insert_pawn_in_grid(line, column, player_pawn)
+        else:
+            print("Déjà placé")
 
     def victory_condition(self, pawn_player):
         index = 0
@@ -57,20 +62,35 @@ class Game:
                 if (case == pawn_player and case+1 == pawn_player and case+2 == pawn_player):
                     print("Win")
     def horizontal_victory(self, pawn_sign):
-        count_pawn = 1
-        line = 0
-        for x in range(2):
-            if(grid.grid[line, x] ==  pawn_sign and grid.grid[line, x+1] == pawn_sign):
-                count_pawn += 1
-            if(count_pawn < 3 and x+1 == 2 and line < 2):
-                count_pawn = 0
-                line += 1
-            if (count_pawn == 3):
-                print(count_pawn)
-                return False
-            else:
-                print(count_pawn)
-                return True
+        first_horizontal_win = [grid.grid[0, 0],grid.grid[0, 1],grid.grid[0, 2]]
+        second_horizontal_win = [grid.grid[1, 0],grid.grid[1, 1],grid.grid[1, 2]]
+        third_horizontal_win = [grid.grid[2, 0],grid.grid[2, 1],grid.grid[2, 2]]
+
+        if first_horizontal_win[0] == pawn_sign and first_horizontal_win[0] == first_horizontal_win[1] and first_horizontal_win[1] == first_horizontal_win[2]:
+            print("Victory")
+        elif second_horizontal_win[0] == pawn_sign and second_horizontal_win[0] == second_horizontal_win[1] and second_horizontal_win[1] == second_horizontal_win[2]:
+            print("Victory")
+        elif third_horizontal_win[0] == pawn_sign and third_horizontal_win[0] == third_horizontal_win[1] and third_horizontal_win[1] == third_horizontal_win[2]:
+            print("Victory")
+        else:
+            print("No victory")
+
+
+    def vertical_victory(self, pawn_sign):
+        first_vertical_win = [grid.grid[0, 0],grid.grid[1, 0],grid.grid[2, 0]]
+        second_vertical_win = [grid.grid[1, 1],grid.grid[1, 1],grid.grid[2, 1]]
+        third_vertical_win = [grid.grid[2, 2],grid.grid[2, 2],grid.grid[2, 2]]
+
+
+        if first_vertical_win[0] == pawn_sign and first_vertical_win[0] == first_vertical_win[1] and first_vertical_win[1] == first_vertical_win[2]:
+            print("Victory")
+        elif second_vertical_win[0] == pawn_sign and second_vertical_win[0] == second_vertical_win[1] and second_vertical_win[1] == second_vertical_win[2]:
+            print("Victory")
+        elif third_vertical_win[0] == pawn_sign and third_vertical_win[0] == third_vertical_win[1] and third_vertical_win[1] == third_vertical_win[2]:
+            print("Victory")
+        else:
+            print("No victory")
+
 
 
 
