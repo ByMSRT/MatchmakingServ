@@ -7,13 +7,13 @@ class Game:
         self.name = name
 
     def choose_pawn(self, player_id):
-        pawn_player_1 = input(f"Joueur {player_id} quel pion voulez-vous choisir ? Vous avez le choix entre : 1 = X ou 2 = O")
+        pawn_player = input(f"Joueur {player_id} quel pion voulez-vous choisir ? Vous avez le choix entre : 1 = X ou 2 = O : ")
         player_pawn = ''
-        if(int(pawn_player_1) != 1 and int(pawn_player_1 != 2)):
+        if int(pawn_player) != 1 and int(pawn_player) != 2:
             print("Vous n'avez pas choisi une valeur correct")
             return
         else:
-            if(int(pawn_player_1) == 1):
+            if int(pawn_player) == 1:
                 print("Votre pion est désormais 'X'")
                 player_pawn = 'X'
             else:
@@ -66,10 +66,10 @@ class Game:
         while win_player_1 == False and win_player_2 == False:
             if index_of_player % 2:
                 index_of_player = self.place_pawn('1', player_1_pawn, index_of_player)
-                win_player_1 = self.win_or_null('O')
+                win_player_1 = self.win_or_null(player_1_pawn)
             else:
                 index_of_player = self.place_pawn('2', player_2_pawn, index_of_player)
-                win_player_2 = self.win_or_null('X')
+                win_player_2 = self.win_or_null(player_2_pawn)
             if index_of_player == 9 and win_player_1 == False and win_player_2 == False:
                 print("Match nul")
                 grid.display_grid()
