@@ -6,16 +6,20 @@ class Game:
     def __init__(self, name):
         self.name = name
 
-    def choose_pawn(self):
-        pawn_player_1 = input("Joueur 1 quel pion voulez-vous choisir ? Vous avez le choix entre : 1 = X ou 2 = O")
-        if(pawn_player_1 != 1 and pawn_player_1 != 2):
+    def choose_pawn(self, player_id):
+        pawn_player_1 = input(f"Joueur {player_id} quel pion voulez-vous choisir ? Vous avez le choix entre : 1 = X ou 2 = O")
+        player_pawn = ''
+        if(int(pawn_player_1) != 1 and int(pawn_player_1 != 2)):
             print("Vous n'avez pas choisi une valeur correct")
             return
         else:
-            if(pawn_player_1 == 1):
+            if(int(pawn_player_1) == 1):
                 print("Votre pion est désormais 'X'")
+                player_pawn = 'X'
             else:
                 print("Votre pion est désormais 'O'")
+                player_pawn = 'O'
+        return player_pawn
 
     def random_player(self):
         player_1 = ""
@@ -25,13 +29,13 @@ class Game:
                 if player_1 == "":
                     print("Veuillez rentrer un nom")
                 else:
-                        print("Vous avez choisi : " + player_1)
+                    print("Vous avez choisi : " + player_1)
         while player_2 == "":
                 player_2 = input("Joueur 2 quel est votre nom ? ")
                 if player_2 == "":
                         print("Veuillez rentrer un nom")
                 else:
-                        print("Vous avez choisi : " + player_2)
+                    print("Vous avez choisi : " + player_2)
         players = [player_1, player_2]
         random_player = choice(players)
         print(f"C'est {random_player} qui commence la partie !")
@@ -52,18 +56,26 @@ class Game:
         index_of_player = 0
         win_player_1 = False
         win_player_2 = False
+        player_1_pawn = self.choose_pawn('1')
+        player_2_pawn = ''
+        if player_1_pawn == 'X':
+            player_2_pawn = 'O'
+        else:
+            player_2_pawn = 'X'
+
         while win_player_1 == False and win_player_2 == False:
-            if index_of_player%2:
-                index_of_player = self.place_pawn('1', 'O', index_of_player)
+            if index_of_player % 2:
+                index_of_player = self.place_pawn('1', player_1_pawn, index_of_player)
                 win_player_1 = self.win_or_null('O')
             else:
-                index_of_player = self.place_pawn('2', 'X', index_of_player)
+                index_of_player = self.place_pawn('2', player_2_pawn, index_of_player)
                 win_player_2 = self.win_or_null('X')
             if index_of_player == 9 and win_player_1 == False and win_player_2 == False:
                 print("Match nul")
                 grid.display_grid()
                 return
             print(index_of_player)
+
         if win_player_1:
             print("Fin du match, gagnant player 1")
             grid.display_grid()
