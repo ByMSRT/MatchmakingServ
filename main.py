@@ -3,12 +3,8 @@ from TicTacToe.Grid import Grid
 from TicTacToe.BDD import *
 
 def main():
-    #print(getter.name)
-    #getter.play()
-    db.create_player_table()
-    """ db.insert_player("Elouan") """
-    db.select_player()
-    db.close_connexion()
+    print(getter.name)
+    getter.play()
 
 
 getter = Game('Tic Tac Toe')
