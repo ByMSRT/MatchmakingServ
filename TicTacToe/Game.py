@@ -6,8 +6,8 @@ class Game:
     def __init__(self, name):
         self.name = name
 
-    def choose_pawn(self, player_id):
-        pawn_player = input(f"Joueur {player_id} quel pion voulez-vous choisir ? Vous avez le choix entre : 1 = X ou 2 = O : ")
+    def choose_pawn(self, player):
+        pawn_player = input(f"Joueur {player} quel pion voulez-vous choisir ? Vous avez le choix entre : 1 = X ou 2 = O : ")
         player_pawn = ''
         if int(pawn_player) != 1 and int(pawn_player) != 2:
             print("Vous n'avez pas choisi une valeur correct")
@@ -37,8 +37,18 @@ class Game:
                 else:
                     print("Vous avez choisi : " + player_2)
         players = [player_1, player_2]
-        random_player = choice(players)
-        print(f"C'est {random_player} qui commence la partie !")
+        first_player = choice(players)
+        second_player = ''
+        if first_player == players[0]:
+            second_player = players[1]
+        else:
+            second_player = players[0]
+        print(f"Premier joueur : {first_player}, deuxième joueur : {second_player}")
+        array_of_player = [first_player, second_player]
+        return array_of_player
+
+
+        #print(f"C'est {random_player} qui commence la partie !")
 
     #TODO
     def choose_case(self, line_or_row):
@@ -56,20 +66,20 @@ class Game:
         index_of_player = 0
         win_player_1 = False
         win_player_2 = False
-        player_1_pawn = self.choose_pawn('1')
+        array_of_player = self.random_player()
+        player_1_pawn = self.choose_pawn(array_of_player[0])
         player_2_pawn = ''
         if player_1_pawn == 'X':
             player_2_pawn = 'O'
         else:
             player_2_pawn = 'X'
-
         while win_player_1 == False and win_player_2 == False:
             if index_of_player % 2:
-                index_of_player = self.place_pawn('1', player_1_pawn, index_of_player)
-                win_player_1 = self.win_or_null(player_1_pawn)
-            else:
-                index_of_player = self.place_pawn('2', player_2_pawn, index_of_player)
+                index_of_player = self.place_pawn(array_of_player[1], player_2_pawn, index_of_player)
                 win_player_2 = self.win_or_null(player_2_pawn)
+            else:
+                index_of_player = self.place_pawn(array_of_player[0], player_1_pawn, index_of_player)
+                win_player_1 = self.win_or_null(player_1_pawn)
             if index_of_player == 9 and win_player_1 == False and win_player_2 == False:
                 print("Match nul")
                 grid.display_grid()
