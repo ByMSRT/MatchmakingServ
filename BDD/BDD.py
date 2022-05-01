@@ -6,10 +6,7 @@ class BDD:
 
     def __init__(self):
         self.conn = sqlite3.connect('TicTacToe.db')
-
-
-
-    print ("Opened database successfully")
+        print ("Opened database successfully")
 
 
     #? CREATE TABLE

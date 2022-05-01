@@ -1,3 +1,5 @@
 .idea
 .DS_Store
 TicTacToe/__pycache__/*
+*.pyc
+*.pyc
