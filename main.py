@@ -43,7 +43,7 @@ def main():
         #id = db.get_player_info("ID", "Username", username)
         #print(id)
         db.get_stats_of_player(username)
-        print("\n \n")
+        print("\n\n")
         db.get_game_info(username)
 
     db.close_connexion()

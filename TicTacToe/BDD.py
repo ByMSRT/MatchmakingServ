@@ -4,14 +4,10 @@ from TicTacToe.Game import Game
 
 
 class BDD:
-
     def __init__(self):
         self.conn = sqlite3.connect('TicTacToe.db')
 
-
-
     #print ("Opened database successfully")
-
 
     #? CREATE TABLE
 
@@ -97,32 +93,22 @@ class BDD:
 
     # -------------------------- SQLite request -------------------------
 
-    def get_stats_of_player(self, username):
+    def get_stats_of_player(self, data, username):
         user_id = self.get_player_info("ID", "Username", username)
         for test in str(user_id):
             print(test[0])
-
             request = self.conn.execute(
-                f"SELECT Player_ID, Win, Lose, Tie FROM Stats INNER JOIN Player ON Player.ID = Stats.Player_ID WHERE Stats.Player_ID = {test[0]}")
+                f"SELECT {data} FROM Stats INNER JOIN Player ON Player.ID = Stats.Player_ID WHERE Stats.Player_ID = {test[0]}")
             for player_stats in request:
-                print(f"Joueur : '{username}' \n"
-                      f"ID : {player_stats[0]} \n"
-                      f"Partie Gagné : {player_stats[1]} \n"
-                      f"Partie Perdu : {player_stats[2]} \n"
-                      f"Partie Nul : {player_stats[3]} \n")
+                return player_stats
 
-    def get_game_info(self, username):
+    def get_game_info(self, data, username):
         user_id = self.get_player_info("ID", "Username", username)
         for test in str(user_id):
             request = self.conn.execute(
-                f"SELECT Player_id, Opponent_id, Result, Start_time FROM Game_info INNER JOIN Player ON Player.ID = Player_id WHERE Player_id = {test[0]}")
+                f"SELECT {data} FROM Game_info INNER JOIN Player ON Player.ID = Player_id WHERE Player_id = {test[0]}")
             for game_stats in request:
-                print(f"Joueur : '{username}' \n"
-                      f"ID : {game_stats[0]} \n"
-                      f"Adversaire ID : {game_stats[1]} \n"
-                      f"Nom Adversaire : {self.get_player_info('Username', 'ID', game_stats[1])} \n"
-                      f"Resultat : {game_stats[2]} \n"
-                      f"Debut de partie : {game_stats[3]} \n")
+                return game_stats
 
     def get_player_info(self, information, parameter, parameter_value):
         user_info = None
@@ -133,7 +119,12 @@ class BDD:
 
         for info in user_info:
             return info[0]
-        #Return string and not tuplr
+
+
+    def update_stats_info(self, column_to_change, value, player_id):
+        self.conn.execute(f"UPDATE Stats SET {column_to_change} = {value} WHERE Player_ID = {player_id}")
+        self.conn.commit()
+
 
 
 game = Game("Tic Tac Toe")
