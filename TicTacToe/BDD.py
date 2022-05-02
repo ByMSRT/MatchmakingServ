@@ -9,7 +9,7 @@ class BDD:
 
 
 
-    print ("Opened database successfully")
+    #print ("Opened database successfully")
 
 
     #? CREATE TABLE

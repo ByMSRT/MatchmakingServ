@@ -1,10 +1,12 @@
 from TicTacToe.Game import Game
 from TicTacToe.Grid import Grid
 from TicTacToe.BDD import BDD
+from MatchMaking.Connection import Connection
 
 def main():
     #print(getter.name)
-    getter.play()
+    #getter.play()
+    #connect.get_client_ip()
     #db.create_player_table()
     #db.create_game_info()
     #db.insert_player("Elouan")
@@ -19,5 +21,6 @@ def main():
 getter = Game('Tic Tac Toe')
 grid = Grid()
 db = BDD()
+connect = Connection()
 
 main()

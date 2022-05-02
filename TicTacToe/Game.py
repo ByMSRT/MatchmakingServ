@@ -89,9 +89,11 @@ class Game:
         if win_player_1:
             print("Fin du match, gagnant player 1")
             grid.display_grid()
+            return array_of_player[0]
         elif win_player_2:
             print("Fin du match, gagnant player 2")
             grid.display_grid()
+            return array_of_player[1]
 
     def can_place_pawn(self, line, column):
         cant_place_pawn = False
