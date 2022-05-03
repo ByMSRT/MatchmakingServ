@@ -1,17 +1,20 @@
-from TicTacToe.Game import Game
-from TicTacToe.Grid import Grid
-from TicTacToe.BDD import BDD
 from MatchMaking.Connection import Connection
+from TicTacToe.Grid import Grid
+from TicTacToe.Game import Game
+from TicTacToe.BDD import BDD
+
+#from TicTacToe.Pions import Pions
 
 def main():
     result_input = menu()
     if result_input == 1:
+        username = input("Quel est votre pseudo ? ")
         print()
         print("Info Player")
         db.select_player()
         print()
         print("Game info")
-        db.select_game_info()
+        db.select_game_info(username)
         print()
         print("Stat info")
         db.select_stats()
@@ -37,32 +40,22 @@ def main():
         db.create_game_info()
     elif result_input == 7:
         username = input("Quel est votre pseudo ? ")
+        data_stats = "Win, Lose, Tie"
+        data_game_info = "Player_id, Opponent_id, Result, Start_time"
         #user_id = input("Quel est votre ID ? ")
         #name = db.get_player_info("Username", "ID", int(user_id))
         #print(name)
         #id = db.get_player_info("ID", "Username", username)
         #print(id)
-        db.get_stats_of_player(username)
-        print("\n\n")
-        db.get_game_info(username)
-
+        for stat in db.get_stats_of_player(data_stats, username):
+            print(stat)
+        print()
+        #for game_info in db.get_game_info(data_game_info, username):
+         #   print("game_info")
+        db.get_game_info(data_game_info, username)
     db.close_connexion()
 
-    #print(getter.name)
-    #getter.play()
-    #connect.get_client_ip()
-    #db.create_player_table()
-    #db.create_game_info()
-    #db.insert_player("Elouan")
-    #db.insert_player("Kevin")
-    #db.insert_game_info(1, 2)
-    #db.insert_game_info(2, 1, 0)
-    #db.select_player()
-    #db.select_game_info()
-    #db.close_connexion()
-
 def menu():
-
     print("1 : Info BDD")
     print("2 : Play")
     print("3 : Insert Player")
@@ -72,6 +65,8 @@ def menu():
     print("7 : Connect")
     result = input("Que veux-tu faire ?")
     return int(result)
+
+
 getter = Game('Tic Tac Toe')
 grid = Grid()
 db = BDD()

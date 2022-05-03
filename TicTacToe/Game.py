@@ -3,9 +3,10 @@ from random import choice
 from TicTacToe.BDD import BDD
 
 class Game:
-
     def __init__(self, name):
         self.name = name
+
+
 
     def choose_pawn(self, player):
         pawn_player = input(f"Joueur {player} quel pion voulez-vous choisir ? Vous avez le choix entre : 1 = X ou 2 = O : ")
@@ -22,24 +23,32 @@ class Game:
                 player_pawn = 'O'
         return player_pawn
 
+    def connect_user(self):
+        register = input("Etes-vous déjà inscrit ? 1 : Oui, 2 : Non ")
+        if int(register) == 1:
+            player_name = input("Quel est votre nom ? ")
+            for test in db.select_player():
+                if player_name == test[1]:
+                    print("Correspondance")
+                    return player_name
+                else:
+                    print("Pas de correspondance")
+        else:
+            new_name = input("Renseignez votre pseudo pour vous enregistrer : ")
+            db.insert_player(new_name)
+            print(f"\n Votre pseudo est donc : {new_name}")
+            return new_name
+
     def random_player(self):
-        player_1 = ""
-        player_2 = ""
+        player_1 = self.connect_user()
+        player_2 = self.connect_user()
         player_1_bool = False
         player_2_bool = False
         while player_1_bool == False:
-                player_1 = input("Joueur 1 quel est votre pseudo ? ")
-                if player_1 == "":
-                    print("Veuillez rentrer un nom")
-                else:
-                    print("Vous avez choisi : " + player_1)
+                if len(player_1) != 0:
                     player_1_bool = True
         while player_2_bool == False:
-                player_2 = input("Joueur 2 quel est votre nom ? ")
-                if player_2 == "":
-                        print("Veuillez rentrer un nom")
-                else:
-                    print("Vous avez choisi : " + player_2)
+                if len(player_2) != 0:
                     player_2_bool = True
         players = [player_1, player_2]
         first_player = choice(players)
@@ -51,8 +60,6 @@ class Game:
         print(f"Premier joueur : {first_player}, deuxième joueur : {second_player}")
         array_of_player = [first_player, second_player]
         return array_of_player
-
-
         #print(f"C'est {random_player} qui commence la partie !")
 
     #TODO
