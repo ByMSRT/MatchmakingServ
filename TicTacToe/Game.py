@@ -1,6 +1,6 @@
 from TicTacToe.Grid import Grid
 from random import choice
-from TicTacToe.BDD import BDD
+from BDD.BDD import BDD
 
 class Game:
 
@@ -30,14 +30,14 @@ class Game:
         while player_1_bool == False:
                 player_1 = input("Joueur 1 quel est votre pseudo ? ")
                 if player_1 == "":
-                    print("Veuillez rentrer un nom")
+                    print("Veuillez rentrer un pseudo")
                 else:
                     print("Vous avez choisi : " + player_1)
                     player_1_bool = True
         while player_2_bool == False:
-                player_2 = input("Joueur 2 quel est votre nom ? ")
+                player_2 = input("Joueur 2 quel est votre pseudo ? ")
                 if player_2 == "":
-                        print("Veuillez rentrer un nom")
+                        print("Veuillez rentrer un pseudo")
                 else:
                     print("Vous avez choisi : " + player_2)
                     player_2_bool = True

@@ -1,6 +1,5 @@
 import sqlite3
 import datetime
-from TicTacToe.Game import Game
 
 
 class BDD:
@@ -125,6 +124,3 @@ class BDD:
         self.conn.execute(f"UPDATE Stats SET {column_to_change} = {value} WHERE Player_ID = {player_id}")
         self.conn.commit()
 
-
-
-game = Game("Tic Tac Toe")
