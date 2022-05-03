@@ -25,14 +25,20 @@ class Game:
 
     def connect_user(self):
         register = input("Etes-vous déjà inscrit ? 1 : Oui, 2 : Non ")
+        player_name = ''
         if int(register) == 1:
-            player_name = input("Quel est votre nom ? ")
-            for test in db.select_player():
-                if player_name == test[1]:
-                    print("Correspondance")
-                    return player_name
-                else:
-                    print("Pas de correspondance")
+            while len(player_name) == 0:
+                player_name_input = input("Quel est votre nom ? ")
+                for index, names in enumerate(db.select_player()):
+                    if player_name_input == names[1]:
+                        print("Correspondance")
+                        player_name += player_name_input
+                        return player_name
+                    else:
+                        print("Pas de correspondance")
+                    length_request = len(db.select_player().fetchall())
+                    if index == length_request and player_name != names[length_request]:
+                        return ''
         else:
             new_name = input("Renseignez votre pseudo pour vous enregistrer : ")
             db.insert_player(new_name)
@@ -40,16 +46,16 @@ class Game:
             return new_name
 
     def random_player(self):
-        player_1 = self.connect_user()
-        player_2 = self.connect_user()
+        player_1 = ''
+        player_2 = ''
         player_1_bool = False
         player_2_bool = False
-        while player_1_bool == False:
-                if len(player_1) != 0:
-                    player_1_bool = True
-        while player_2_bool == False:
-                if len(player_2) != 0:
-                    player_2_bool = True
+        while len(player_1) == 0:
+            new_name = self.connect_user()
+            player_1 += new_name
+        while len(player_2) == 0:
+            new_name = self.connect_user()
+            player_2 += new_name
         players = [player_1, player_2]
         first_player = choice(players)
         second_player = ''
