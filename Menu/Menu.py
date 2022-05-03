@@ -1,7 +1,10 @@
+from TicTacToe.Game import Game
 class Menu: 
 
     def __init__(self):
         pass
+
+    getter = Game('Tic Tac Toe')
 
     def display_menu(self):
         menu_option = {
@@ -16,6 +19,7 @@ class Menu:
 
     def play_local(self):
         print("Jouer en local")
+        self.getter.play()
 
     def play_network(self):
         print("Jouer en réseau")
