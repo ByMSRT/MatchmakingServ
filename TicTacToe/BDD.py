@@ -21,9 +21,10 @@ class BDD:
 
     def create_game_info(self):
         self.conn.execute("CREATE TABLE IF NOT EXISTS Game_info ("
+                          "Game_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," 
                           "Player_id INTEGER, "
                           "Opponent_id INTEGER NOT NULL, "
-                          "Result BOOLEAN NOT NULL,"
+                          "Result TEXT NOT NULL,"
                           "Start_time timestamp, "
                           "FOREIGN KEY (Player_id) REFERENCES Player(ID))")
         print("Table Game_info created successfully")
@@ -128,7 +129,6 @@ class BDD:
                 user_info = self.conn.execute(f"SELECT {information} FROM Player WHERE {parameter} = '{parameter_value}'")
             else:
                 user_info = self.conn.execute(f"SELECT {information} FROM Player")
-
 
         for info in user_info:
             return info[0]

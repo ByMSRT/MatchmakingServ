@@ -17,10 +17,10 @@ class Game:
         else:
             if int(pawn_player) == 1:
                 print("Votre pion est désormais 'X'")
-                player_pawn = 'X'
+                player_pawn += 'X'
             else:
                 print("Votre pion est désormais 'O'")
-                player_pawn = 'O'
+                player_pawn += 'O'
         return player_pawn
 
     def connect_user(self):
@@ -42,14 +42,15 @@ class Game:
         else:
             new_name = input("Renseignez votre pseudo pour vous enregistrer : ")
             db.insert_player(new_name)
+            new_player_id = db.get_player_info("ID", "Username", new_name)
+            db.insert_stats(new_player_id, 0, 0, 0)
             print(f"\n Votre pseudo est donc : {new_name}")
             return new_name
 
     def random_player(self):
         player_1 = ''
         player_2 = ''
-        player_1_bool = False
-        player_2_bool = False
+        second_player = ''
         while len(player_1) == 0:
             new_name = self.connect_user()
             player_1 += new_name
@@ -58,9 +59,8 @@ class Game:
             player_2 += new_name
         players = [player_1, player_2]
         first_player = choice(players)
-        second_player = ''
         if first_player == players[0]:
-            second_player = players[1]
+            second_player += players[1]
         else:
             second_player = players[0]
         print(f"Premier joueur : {first_player}, deuxième joueur : {second_player}")
@@ -87,10 +87,14 @@ class Game:
         array_of_player = self.random_player()
         player_1_pawn = self.choose_pawn(array_of_player[0])
         player_2_pawn = ''
+        player_1_id = 0
+        player_2_id = 0
+        player_1_stat = []
+        player_2_stat = []
         if player_1_pawn == 'X':
-            player_2_pawn = 'O'
+            player_2_pawn += 'O'
         else:
-            player_2_pawn = 'X'
+            player_2_pawn += 'X'
         while win_player_1 == False and win_player_2 == False:
             if index_of_player % 2:
                 index_of_player = self.place_pawn(array_of_player[1], player_2_pawn, index_of_player)
@@ -101,17 +105,45 @@ class Game:
             if index_of_player == 9 and win_player_1 == False and win_player_2 == False:
                 print("Match nul")
                 grid.display_grid()
+                player_1_id += db.get_player_info("ID", "Username", array_of_player[0])
+                player_2_id += db.get_player_info("ID", "Username", array_of_player[1])
+                player_1_stat += db.get_stats_of_player("Tie", array_of_player[0])
+                player_2_stat += db.get_stats_of_player("Tie", array_of_player[1])
+                db.update_stats_info("Tie", player_1_stat[0]+1, player_1_id)
+                db.update_stats_info("Tie", player_2_stat[0]+1, player_2_id)
+                db.insert_game_info(player_1_id, player_2_id, "Nul")
+                db.insert_game_info(player_2_id, player_1_id, "Nul")
                 return
             print(index_of_player)
 
         if win_player_1:
             print("Fin du match, gagnant player 1")
             grid.display_grid()
-            return array_of_player[0]
+            # ---------------- Get player information -------------------------
+            player_1_id += db.get_player_info("ID", "Username", array_of_player[0])
+            player_2_id += db.get_player_info("ID", "Username", array_of_player[1])
+            player_1_stat += db.get_stats_of_player("Win", array_of_player[0])
+            player_2_stat += db.get_stats_of_player("Lose", array_of_player[1])
+            # ----------------------- Update stat of player -------------------------
+            db.update_stats_info("Win", player_1_stat[0]+1, player_1_id)
+            db.update_stats_info("Lose", player_2_stat[0]+1, player_2_id)
+            db.insert_game_info(player_1_id, player_2_id, "Victoire")
+            db.insert_game_info(player_2_id, player_1_id, "Défaite")
+            return
         elif win_player_2:
             print("Fin du match, gagnant player 2")
             grid.display_grid()
-            return array_of_player[1]
+            # ---------------- Get player information -------------------------
+            player_2_id += db.get_player_info("ID", "Username", array_of_player[1])
+            player_1_id += db.get_player_info("ID", "Username", array_of_player[0])
+            player_2_stat += db.get_stats_of_player("Win", array_of_player[1])
+            player_1_stat += db.get_stats_of_player("Lose", array_of_player[0])
+            # ----------------------- Update stat of player -------------------------
+            db.update_stats_info("Win", player_2_stat[0]+1, player_2_id)
+            db.update_stats_info("Lose", player_1_stat[0]+1, player_1_id)
+            db.insert_game_info(player_2_id, player_1_id, "Victoire")
+            db.insert_game_info(player_1_id, player_2_id, "Défaite")
+            return
 
     def can_place_pawn(self, line, column):
         cant_place_pawn = False
@@ -119,9 +151,9 @@ class Game:
             cant_place_pawn = True
         return cant_place_pawn
 
-    def place_pawn(self, player_id, player_pawn, index_of_player):
+    def place_pawn(self, player, player_pawn, index_of_player):
         print()
-        print(f"---------------------- Joueur {player_id} à votre tour ------------------------------")
+        print(f"---------------------- Joueur {player} à votre tour ------------------------------")
         print()
         grid.display_grid()
         column = self.choose_case('colonne')
