@@ -1,6 +1,6 @@
 from TicTacToe.Grid import Grid
 from random import choice
-from TicTacToe.BDD import BDD
+from BDD.BDD import BDD
 
 class Game:
     def __init__(self, name):

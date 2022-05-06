@@ -76,10 +76,10 @@ class BDD:
         cursor = self.conn.execute(f"SELECT * FROM Game_info WHERE Player_id = {user_id}")
         for row in cursor:
             print()
-            print("Player ID = ", row[0])
-            print("Opponent ID = ", row[1])
-            print("Result = ", row[2])
-            print("Start time = ", row[3])
+            print("Player ID = ", row[1])
+            print("Opponent ID = ", row[2])
+            print("Result = ", row[3])
+            print("Start time = ", row[4])
 
     #? Delete table
 
