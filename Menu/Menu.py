@@ -41,10 +41,16 @@ class Menu:
         exit()
 
     def get_info_db(self):
-        print("Info BDD")
+        username = input("Quel est votre pseudo ? ")
+        print()
+        print("Info Player")
         db.select_player()
+        print()
+        print("Game info")
+        db.select_game_info(username)
+        print()
+        print("Stat info")
         db.select_stats()
-        db.select_game_info()
 
     def insert_player(self):
         print("Insert Player")
