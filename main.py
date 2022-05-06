@@ -13,6 +13,6 @@ def main():
 getter = Game('Tic Tac Toe')
 grid = Grid()
 db = BDD()
-connect = Connection()
+#connect = Connection()
 
 main()
