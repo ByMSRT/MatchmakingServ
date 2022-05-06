@@ -1,9 +1,9 @@
 from TicTacToe.Game import Game
 from BDD.BDD import BDD
 from MatchMaking.Server import *
-from MatchMaking.Network import *
 
-class Menu: 
+
+class Menu:
 
     def __init__(self):
         pass
@@ -32,10 +32,10 @@ class Menu:
 
     def play_network(self):
         print("Jouer en réseau")
-    
+
     def play_with_computer(self):
         print("Jouer avec l'ordinateur")
-    
+
     def quit(self):
         print("Quitter")
         exit()
@@ -71,18 +71,18 @@ class Menu:
         opponent_id = input("Quelle est l'ID de votre adversaire ? ")
         result = input("Avez-vous gagné ? ")
         db.insert_game_info(player_id, opponent_id, result)
-    
+
     def create_all_table(self):
         print("Create all table")
         db.create_player_table()
         db.create_stats_table()
         db.create_game_info()
-    
+
     def connect_client(self):
-        connect()
-        
+        print('test')
+
     def generate_server(self):
-       start()
+        start_server()
 
     def get_menu_choice(self):
         while(True):
@@ -124,7 +124,7 @@ class Menu:
             elif option == 11:
                 self.generate_server()
                 break
-            
+
 
 getter = Game('Tic Tac Toe')
 db = BDD()

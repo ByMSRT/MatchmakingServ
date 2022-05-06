@@ -1,28 +1,37 @@
+import threading
 import socket
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server = 'localhost'
-port = 5555
+alias = input('Choose an alias >>> ')
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(('localhost', 5555))
 
-""" s.connect((server, port)) """
 
-mess = "Client connected"
-
-def connect():
-    s.connect((server, port))
-    mess = "Client connected"
-    try:
-        while True:
-            s.send(mess.encode('utf-8'))
-            data = s.recv(1024)
-            print(str(data))
-            more = input("Do you want to continue ? (y/n) ")
-            if more == "y":
-              mess = input("What do you want to send ? ")
+def client_receive():
+    while True:
+        try:
+            message = client.recv(1024).decode('utf-8')
+            if message == "alias?":
+                client.send(alias.encode('utf-8'))
             else:
-                break
-    except KeyboardInterrupt:
-        print("\nClosing connection")
-        s.close()
+                print(message)
+        except:
+            print('Error!')
+            client.close()
+            break
 
+
+def client_send():
+    while True:
+        if message == '!quit':
+            client.close()
+            break
+        message = f'{alias}: {input("")}'
+        client.send(message.encode('utf-8'))
+
+
+receive_thread = threading.Thread(target=client_receive)
+receive_thread.start()
+
+send_thread = threading.Thread(target=client_send)
+send_thread.start()
