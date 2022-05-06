@@ -8,9 +8,6 @@ class Menu:
     def __init__(self):
         pass
 
-    getter = Game('Tic Tac Toe')
-    db = BDD()
-
     def display_menu(self):
         menu_option = {
             1: "Jouer en local",
@@ -31,7 +28,7 @@ class Menu:
 
     def play_local(self):
         print("Jouer en local")
-        self.getter.play()
+        getter.play()
 
     def play_network(self):
         print("Jouer en réseau")
@@ -45,14 +42,14 @@ class Menu:
 
     def get_info_db(self):
         print("Info BDD")
-        self.db.select_player()
-        self.db.select_stats()
-        self.db.select_game_info()
+        db.select_player()
+        db.select_stats()
+        db.select_game_info()
 
     def insert_player(self):
         print("Insert Player")
         username = input("Quel est votre pseudo ? ")
-        self.db.insert_player(username)
+        db.insert_player(username)
 
     def insert_stat(self):
         print("Insert Stat")
@@ -60,20 +57,20 @@ class Menu:
         win = input("Combien de partie avez-vous win ? ")
         loose = input("Combien de partie avez-vous loose ? ")
         null = input("Combien avez-vous fait de partie nul ? ")
-        self.db.insert_stats(player_id, win, loose, null)
+        db.insert_stats(player_id, win, loose, null)
 
     def insert_game_info(self):
         print("Insert Game Info")
         player_id = input("Quel est votre ID ? ")
         opponent_id = input("Quelle est l'ID de votre adversaire ? ")
         result = input("Avez-vous gagné ? ")
-        self.db.insert_game_info(player_id, opponent_id, result)
+        db.insert_game_info(player_id, opponent_id, result)
     
     def create_all_table(self):
         print("Create all table")
-        self.db.create_player_table()
-        self.db.create_stats_table()
-        self.db.create_game_info()
+        db.create_player_table()
+        db.create_stats_table()
+        db.create_game_info()
     
     def connect_client(self):
         connect()
@@ -122,4 +119,6 @@ class Menu:
                 self.generate_server()
                 break
             
-            
+
+getter = Game('Tic Tac Toe')
+db = BDD()
