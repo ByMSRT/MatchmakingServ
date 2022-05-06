@@ -21,9 +21,10 @@ class BDD:
 
     def create_game_info(self):
         self.conn.execute("CREATE TABLE IF NOT EXISTS Game_info ("
+                          "Game_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," 
                           "Player_id INTEGER, "
                           "Opponent_id INTEGER NOT NULL, "
-                          "Result BOOLEAN NOT NULL,"
+                          "Result TEXT NOT NULL,"
                           "Start_time timestamp, "
                           "FOREIGN KEY (Player_id) REFERENCES Player(ID))")
         print("Table Game_info created successfully")
@@ -53,9 +54,11 @@ class BDD:
 
     def select_player(self):
         cursor = self.conn.execute("SELECT * FROM Player")
-        for row in cursor:
-            print()
-            print(f"Player {row[0]} = {row[1]} \n")
+        return cursor
+        # for row in cursor:
+        #     print()
+        #     print(f"Player {row[0]} = {row[1]} \n")
+
     
     def select_stats(self):
         cursor = self.conn.execute("SELECT Player_ID, Win, Lose, Tie, Username FROM Stats INNER JOIN Player ON Player.ID = Stats.Player_ID")
@@ -68,8 +71,9 @@ class BDD:
             print("Username = ", row[4])
             print("\n")
 
-    def select_game_info(self):
-        cursor = self.conn.execute("SELECT * FROM Game_info")
+    def select_game_info(self, username):
+        user_id = self.get_player_info("ID", "Username", username)
+        cursor = self.conn.execute(f"SELECT * FROM Game_info WHERE Player_id = {user_id}")
         for row in cursor:
             print()
             print("Player ID = ", row[0])
@@ -103,18 +107,28 @@ class BDD:
 
     def get_game_info(self, data, username):
         user_id = self.get_player_info("ID", "Username", username)
+
         for test in str(user_id):
+
             request = self.conn.execute(
-                f"SELECT {data} FROM Game_info INNER JOIN Player ON Player.ID = Player_id WHERE Player_id = {test[0]}")
+                f"SELECT {data} FROM Game_info WHERE Player_id = {test[0]}")
+
             for game_stats in request:
+                print(game_stats)
                 return game_stats
 
-    def get_player_info(self, information, parameter, parameter_value):
+    def get_player_info(self, information, parameter=None, parameter_value=None):
         user_info = None
         if isinstance(parameter_value, int):
-            user_info = self.conn.execute(f"SELECT {information} FROM Player WHERE {parameter} = {parameter_value}")
+            if parameter != None and parameter_value != None:
+                user_info = self.conn.execute(f"SELECT {information} FROM Player WHERE {parameter} = {parameter_value}")
+            else:
+                user_info = self.conn.execute(f"SELECT {information} FROM Player")
         else:
-            user_info = self.conn.execute(f"SELECT {information} FROM Player WHERE {parameter} = '{parameter_value}'")
+            if parameter != None and parameter_value != None:
+                user_info = self.conn.execute(f"SELECT {information} FROM Player WHERE {parameter} = '{parameter_value}'")
+            else:
+                user_info = self.conn.execute(f"SELECT {information} FROM Player")
 
         for info in user_info:
             return info[0]
@@ -123,4 +137,3 @@ class BDD:
     def update_stats_info(self, column_to_change, value, player_id):
         self.conn.execute(f"UPDATE Stats SET {column_to_change} = {value} WHERE Player_ID = {player_id}")
         self.conn.commit()
-

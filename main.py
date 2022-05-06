@@ -2,7 +2,11 @@ from TicTacToe.Game import Game
 from TicTacToe.Grid import Grid
 from BDD.BDD import BDD
 from Menu.Menu import Menu
-from MatchMaking.Connection import Connection
+from TicTacToe.Grid import Grid
+from TicTacToe.Game import Game
+
+
+#from TicTacToe.Pions import Pions
 
 def main():
     menu = Menu()
