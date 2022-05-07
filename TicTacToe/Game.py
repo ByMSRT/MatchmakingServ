@@ -74,15 +74,17 @@ class Game:
 
     #TODO
     def choose_case(self, line_or_row):
-        response = input(f"Dans quelle {line_or_row} voulez-vous placer votre pion ?")
-        if len(response) == 0:
+        response_user = input(f"Dans quelle {line_or_row} voulez-vous placer votre pion ?")
+        final_response = None
+        if len(response_user) == 0:
             print("Vous n'avez rien rentré veuillez réessayer")
-            return
-        elif (int(response) <= 0 and int(response) > 3):
+        elif (int(response_user) <= 0 and int(response_user) > 3):
             print("Vous n'avez pas choisi une bonne valeur au tour de votre adversaire")
-            return
         else:
-            return int(response)-1
+            final_response = int(response_user)-1
+        return final_response
+
+
 
     def play(self, ia = None):
         index_of_player = 0
@@ -148,8 +150,13 @@ class Game:
             self.computer_place_pawn(player_pawn)
             index_of_player += 1
         else:
-            column = self.choose_case('colonne')
-            line = self.choose_case('ligne')
+
+            column = None
+            line = None
+            while column == None:
+                column = self.choose_case('Colonne')
+            while line == None:
+                line = self.choose_case('ligne')
             if (self.can_place_pawn(line, column)):
                 grid.insert_pawn_in_grid(line, column, player_pawn)
                 index_of_player += 1
