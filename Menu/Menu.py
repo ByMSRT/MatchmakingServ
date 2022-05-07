@@ -27,17 +27,14 @@ class Menu:
 
     def play_local(self):
         print("Jouer en local")
-        IA = input("Voulez-vous jouer contre une IA ? 1 : Oui, 2 : Non")
-        if int(IA) == 1:
-            print("Go IA")
-        else:
-            getter.play()
+        getter.play()
 
     def play_network(self):
         print("Jouer en réseau")
 
     def play_with_computer(self):
         print("Jouer avec l'ordinateur")
+        getter.play("IA")
 
     def quit(self):
         print("Quitter")
@@ -128,3 +125,4 @@ class Menu:
 
 getter = Game('Tic Tac Toe')
 db = BDD()
+
