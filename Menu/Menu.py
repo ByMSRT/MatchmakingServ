@@ -1,6 +1,6 @@
 from TicTacToe.Game import Game
 from BDD.BDD import BDD
-from MatchMaking.Server import *
+from MatchMaking.Network import *
 
 
 class Menu:
@@ -20,7 +20,6 @@ class Menu:
             8: "Insert Player",
             9: "Insert Stat",
             10: "Insert Game Info",
-            11: "Generate Server",
         }
 
         for key in menu_option.keys():
@@ -79,10 +78,7 @@ class Menu:
         db.create_game_info()
 
     def connect_client(self):
-        print('test')
-
-    def generate_server(self):
-        start_server()
+        connect()
 
     def get_menu_choice(self):
         while(True):
@@ -120,9 +116,6 @@ class Menu:
                 break
             elif option == 10:
                 self.insert_game_info()
-                break
-            elif option == 11:
-                self.generate_server()
                 break
 
 

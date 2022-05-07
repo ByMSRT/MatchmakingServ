@@ -2,12 +2,18 @@ import threading
 import socket
 
 
-alias = input('Choose an alias >>> ')
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('localhost', 5555))
+def connect():
+    alias = input('Choose an alias >>> ')
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(('141.95.166.131', 5555))
+    receive_thread = threading.Thread(
+        target=client_receive, args=(client, alias))
+    receive_thread.start()
+    send_thread = threading.Thread(target=client_send, args=(client, alias))
+    send_thread.start()
 
 
-def client_receive():
+def client_receive(client, alias):
     while True:
         try:
             message = client.recv(1024).decode('utf-8')
@@ -21,17 +27,7 @@ def client_receive():
             break
 
 
-def client_send():
+def client_send(client, alias):
     while True:
-        if message == '!quit':
-            client.close()
-            break
         message = f'{alias}: {input("")}'
         client.send(message.encode('utf-8'))
-
-
-receive_thread = threading.Thread(target=client_receive)
-receive_thread.start()
-
-send_thread = threading.Thread(target=client_send)
-send_thread.start()
