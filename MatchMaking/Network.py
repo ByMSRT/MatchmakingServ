@@ -1,47 +1,33 @@
-# import socket
-#
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#
-# server = 'localhost'
-# port = 5555
-#
-# """ s.connect((server, port)) """
-#
-# mess = "Client connected"
-#
-# def connect():
-#     s.connect((server, port))
-#     mess = "Client connected"
-#     try:
-#         while True:
-#             s.send(mess.encode('utf-8'))
-#             data = s.recv(1024)
-#             print(str(data))
-#             more = input("Do you want to continue ? (y/n) ")
-#             if more == "y":
-#               mess = input("What do you want to send ? ")
-#             else:
-#                 break
-#     except KeyboardInterrupt:
-#         print("\nClosing connection")
-#         s.close()
-#
-
-# ------------------------------------- Test ---------------------------------------------------
-
+import threading
 import socket
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((socket.gethostname(), 5555))
 
 def connect():
-    while True:
-        full_msg = ''
-        while True:
-            msg = s.recv(8)
-            if len(msg) <= 0:
-                break
-            full_msg += msg.decode("utf-8")
+    alias = input('Choose an alias >>> ')
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(('141.95.166.131', 5555))
+    receive_thread = threading.Thread(
+        target=client_receive, args=(client, alias))
+    receive_thread.start()
+    send_thread = threading.Thread(target=client_send, args=(client, alias))
+    send_thread.start()
 
-        if len(full_msg) > 0:
-            print(full_msg)
+
+def client_receive(client, alias):
+    while True:
+        try:
+            message = client.recv(1024).decode('utf-8')
+            if message == "alias?":
+                client.send(alias.encode('utf-8'))
+            else:
+                print(message)
+        except:
+            print('Error!')
+            client.close()
+            break
+
+
+def client_send(client, alias):
+    while True:
+        message = f'{alias}: {input("")}'
+        client.send(message.encode('utf-8'))
