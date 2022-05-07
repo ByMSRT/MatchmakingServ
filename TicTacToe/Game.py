@@ -105,45 +105,33 @@ class Game:
             if index_of_player == 9 and win_player_1 == False and win_player_2 == False:
                 print("Match nul")
                 grid.display_grid()
-                player_1_id += db.get_player_info("ID", "Username", array_of_player[0])
-                player_2_id += db.get_player_info("ID", "Username", array_of_player[1])
-                player_1_stat += db.get_stats_of_player("Tie", array_of_player[0])
-                player_2_stat += db.get_stats_of_player("Tie", array_of_player[1])
-                db.update_stats_info("Tie", player_1_stat[0]+1, player_1_id)
-                db.update_stats_info("Tie", player_2_stat[0]+1, player_2_id)
-                db.insert_game_info(player_1_id, player_2_id, "Nul")
-                db.insert_game_info(player_2_id, player_1_id, "Nul")
+                self.insert_and_update_db(player_1_id, player_1_stat, player_2_id, player_2_stat, array_of_player, 0, 1, "Tie", "Tie", "Nul", "Nul")
                 return
             print(index_of_player)
 
         if win_player_1:
             print("Fin du match, gagnant player 1")
             grid.display_grid()
-            # ---------------- Get player information -------------------------
-            player_1_id += db.get_player_info("ID", "Username", array_of_player[0])
-            player_2_id += db.get_player_info("ID", "Username", array_of_player[1])
-            player_1_stat += db.get_stats_of_player("Win", array_of_player[0])
-            player_2_stat += db.get_stats_of_player("Lose", array_of_player[1])
-            # ----------------------- Update stat of player -------------------------
-            db.update_stats_info("Win", player_1_stat[0]+1, player_1_id)
-            db.update_stats_info("Lose", player_2_stat[0]+1, player_2_id)
-            db.insert_game_info(player_1_id, player_2_id, "Victoire")
-            db.insert_game_info(player_2_id, player_1_id, "Défaite")
+            self.insert_and_update_db(player_1_id, player_1_stat, player_2_id, player_2_stat, array_of_player, 0, 1, "Win", "Lose", "Victoire", "Défaite")
             return
         elif win_player_2:
             print("Fin du match, gagnant player 2")
             grid.display_grid()
-            # ---------------- Get player information -------------------------
-            player_2_id += db.get_player_info("ID", "Username", array_of_player[1])
-            player_1_id += db.get_player_info("ID", "Username", array_of_player[0])
-            player_2_stat += db.get_stats_of_player("Win", array_of_player[1])
-            player_1_stat += db.get_stats_of_player("Lose", array_of_player[0])
-            # ----------------------- Update stat of player -------------------------
-            db.update_stats_info("Win", player_2_stat[0]+1, player_2_id)
-            db.update_stats_info("Lose", player_1_stat[0]+1, player_1_id)
-            db.insert_game_info(player_2_id, player_1_id, "Victoire")
-            db.insert_game_info(player_1_id, player_2_id, "Défaite")
+            self.insert_and_update_db(player_2_id, player_2_stat, player_1_id, player_1_stat, array_of_player, 1, 0, "Win", "Lose", "Victoire", "Défaite")
             return
+
+    def insert_and_update_db(self, winner_id, winner_stat, looser_id, looser_stat, array_of_player, winner_index, looser_index, win, lose, victory, defeat):
+        # ---------------- Get player information -------------------------
+        winner_id += db.get_player_info("ID", "Username", array_of_player[winner_index])
+        looser_id += db.get_player_info("ID", "Username", array_of_player[looser_index])
+        winner_stat += db.get_stats_of_player(win, array_of_player[winner_index])
+        looser_stat += db.get_stats_of_player(lose, array_of_player[looser_stat])
+        # ----------------------- Update stat of player -------------------------
+        db.update_stats_info(win, winner_stat[0] + 1, winner_id)
+        db.update_stats_info(lose, looser_stat[0] + 1, looser_id)
+        db.insert_game_info(winner_id, looser_id, victory)
+        db.insert_game_info(looser_id, winner_id, defeat)
+
 
     def can_place_pawn(self, line, column):
         cant_place_pawn = False

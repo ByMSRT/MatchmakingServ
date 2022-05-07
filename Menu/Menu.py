@@ -28,7 +28,11 @@ class Menu:
 
     def play_local(self):
         print("Jouer en local")
-        getter.play()
+        IA = input("Voulez-vous jouer contre une IA ? 1 : Oui, 2 : Non")
+        if int(IA) == 1:
+            print("Go IA")
+        else:
+            getter.play()
 
     def play_network(self):
         print("Jouer en réseau")
@@ -41,6 +45,9 @@ class Menu:
         exit()
 
     def get_info_db(self):
+        # db.create_player_table()
+        # db.create_stats_table()
+        # db.create_game_info()
         username = input("Quel est votre pseudo ? ")
         print()
         print("Info Player")
