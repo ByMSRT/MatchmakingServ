@@ -51,13 +51,14 @@ def handle_client(client):
 
 """ import threading
 import socket
-host = '127.0.0.1'
-port = 59000
+host = 'localhost'
+port = 5555
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
 server.listen()
 clients = []
 aliases = []
+player = []
 
 
 def broadcast(message):
@@ -103,4 +104,5 @@ def receive():
 
 
 if __name__ == "__main__":
-    receive() """
+    receive()
+ """
