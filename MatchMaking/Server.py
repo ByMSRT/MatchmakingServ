@@ -54,11 +54,12 @@ def receive():
         thread.start()
         if len(clients) == 2:
             print('2 clients are connected')
-            client.send('La partie va pourvoir commencer !'.encode('utf-8'))
-            test = client.recv(1024)
-            broadcast(f'Message jeu : {test}'.encode('utf-8'))
             player_str = str(players)
-            client.send(player_str.encode('utf-8'))
+            broadcast(f'Players : {player_str}'.encode('utf-8'))
+            client.send('La partie va pourvoir commencer !'.encode('utf-8'))
+            reply = client.recv(4096)
+            broadcast(reply.encode('utf-8'))
+            print(player_str)
 
 
 if __name__ == "__main__":

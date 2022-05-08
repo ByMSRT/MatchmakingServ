@@ -1,5 +1,6 @@
 from BDD.BDD import BDD
 from Menu.Menu import Menu
+from TicTacToe.Game import Game
 
 
 def main():
@@ -9,7 +10,7 @@ def main():
 
 
 getter = Game('Tic Tac Toe')
-grid = Grid()
+
 db = BDD()
 
 
