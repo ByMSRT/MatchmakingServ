@@ -6,18 +6,20 @@ from TicTacToe.Game import Game
 
 # 141.95.166.131
 
-
+# Try connecting to the server
 def connect():
     array_of_player = []
     alias = getter.connect_user()
     array_of_player.append(alias)
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(('localhost', 5555))
+    client.connect(('141.95.166.131', 5555))
     receive_thread = threading.Thread(
         target=client_receive, args=(client, alias))
     receive_thread.start()
     send_thread = threading.Thread(target=client_send, args=(client, alias))
     send_thread.start()
+
+# Receive messages from the server
 
 
 def client_receive(client, alias):
@@ -37,6 +39,8 @@ def client_receive(client, alias):
             print('Error!')
             client.close()
             break
+
+# Send messages to the server
 
 
 def client_send(client, alias):

@@ -1,7 +1,7 @@
 import threading
 import socket
-#host = '141.95.166.131'
-host = 'localhost'
+host = '141.95.166.131'
+#host_local = 'localhost'
 port = 5555
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
@@ -10,12 +10,14 @@ clients = []
 aliases = []
 players = []
 
+# Send message to all clients
+
 
 def broadcast(message):
     for client in clients:
         client.send(message)
 
-# Function to handle clients'connections
+# Handle clients
 
 
 def handle_client(client):
@@ -32,9 +34,9 @@ def handle_client(client):
             players.remove(alias)
             aliases.remove(alias)
             break
-# Main function to receive the clients connection
 
 
+# Accept new clients
 def receive():
     while True:
         print('Server is running and listening ...')
