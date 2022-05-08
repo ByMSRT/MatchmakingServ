@@ -1,10 +1,12 @@
 import numpy as np
 
+
 class Grid:
     def __init__(self):
         self.column = 3
         self.line = 3
         self.grid = np.array([['-']*self.line]*self.column)
+
 
     def display_number(self):
         number = ['1', '2', '3']
