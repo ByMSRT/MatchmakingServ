@@ -32,6 +32,7 @@ def client_receive(client, alias):
             if message == "La partie va pourvoir commencer !":
                 client.send(
                     f"Broadcast : la partie va commencer... \n{grid.grid_creation()}".encode('utf-8'))
+
         except:
             print('Error!')
             client.close()
