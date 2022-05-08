@@ -9,7 +9,6 @@ class Grid:
 
     def display_grid(self):
         index = 0
-        grid = ''
         for grid_line in self.grid:
             for grid_column in grid_line:
                 index += 1
