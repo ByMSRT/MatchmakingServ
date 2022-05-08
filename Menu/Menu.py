@@ -1,6 +1,7 @@
 from TicTacToe.Game import Game
 from BDD.BDD import BDD
 from MatchMaking.Network import *
+from TicTacToe.Grid import Grid
 
 
 class Menu:
@@ -20,6 +21,7 @@ class Menu:
             8: "Insert Player",
             9: "Insert Stat",
             10: "Insert Game Info",
+            11: "Display grid"
         }
 
         for key in menu_option.keys():
@@ -121,8 +123,11 @@ class Menu:
             elif option == 10:
                 self.insert_game_info()
                 break
+            elif option == 11:
+                grid.display_grid()
 
 
+grid = Grid()
 getter = Game('Tic Tac Toe')
 db = BDD()
 

@@ -13,15 +13,33 @@ class Grid:
 
     def display_grid(self):
         index = 0
+        grid = ''
         for grid_line in self.grid:
             for grid_column in grid_line:
                 index += 1
                 if int(index / 3):
-                    print(grid_column)
+                    grid += grid_column + "\n"
+                    #print(grid_column)
                     index = 0
                 else:
-                    print(grid_column + " |", end=' ')
+                    grid += grid_column + " | "
+                    #print(grid_column + " |", end=' ')
+        print(grid)
 
+    def grid_creation(self):
+        index = 0
+        grid = ''
+        for grid_line in self.grid:
+            for grid_column in grid_line:
+                index += 1
+                if int(index / 3):
+                    grid += grid_column + "\n"
+                    # print(grid_column)
+                    index = 0
+                else:
+                    grid += grid_column + " | "
+                    # print(grid_column + " |", end=' ')
+        return grid
 
     def insert_pawn_in_grid(self, line, column, pawn_value):
         self.grid[line, column] = pawn_value
