@@ -7,7 +7,6 @@ class Grid:
         self.line = 3
         self.grid = np.array([['-']*self.line]*self.column)
 
-
     def display_number(self):
         number = ['1', '2', '3']
         for x in number:
