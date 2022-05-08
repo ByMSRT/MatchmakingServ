@@ -1,10 +1,6 @@
-from TicTacToe.Game import Game
-from TicTacToe.Grid import Grid
 from BDD.BDD import BDD
 from Menu.Menu import Menu
 
-
-#from TicTacToe.Pions import Pions
 
 def main():
     menu = Menu()
@@ -15,6 +11,6 @@ def main():
 getter = Game('Tic Tac Toe')
 grid = Grid()
 db = BDD()
-#connect = Connection()
+
 
 main()
